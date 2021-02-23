@@ -18,13 +18,14 @@ Route::get('/react/{path?}', function () {
 });
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/',function(){
     return redirect('/react/home');
 });
 
-// Routes Calendar 
+// ######  Admin Side  #####
+Route::get('/home', 'HomeController@index')->name('home');
+
+// Routes Calendar
 Route::get('/home/calendar/{month?}', 'CalendarViewController@show')->name('calendar');
 
 // Routes Booking

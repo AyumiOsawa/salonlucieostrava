@@ -15,7 +15,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
+
                     {{-- GENERAL Error Message --}}
                     @if(count($errors) > 0)
                         @foreach($errors->all() as $error)
@@ -96,7 +96,7 @@
                         </span>
 
                         @if ($message !== '')
-                            <div class="row d-flex my-4">   
+                            <div class="row d-flex my-4">
                                 <div class='mx-auto'>{{ $message }}</div>
                             </div>
                         @else
@@ -112,28 +112,29 @@
                                 </tr>
                             </thead>
                             <tbody>
+                              @if (isset($full_schedule) && $full_schedule !== [])
                                 @foreach($full_schedule[$date] as $timeslot => $info)
                                     <tr>
                                         <td class="pt-3-half" contenteditable="true">{{ $timeslot }}</td>
                                         <td class="pt-3-half" contenteditable="true">
                                             {{
                                                 isset($info['availability']) ? ($info['availability'] === 1 ? 'Booked' : 'Blocked')
-                                                : 'Available' 
+                                                : 'Available'
                                             }}
                                         </td>
                                         <td>
                                             @if ( isset($info['availability']) )
-                                                @if ($info['availability'] === 1) 
+                                                @if ($info['availability'] === 1)
                                                     <a href={{ route('booking.details', ['id' => $info['booking_id'], 'timeslot' => $timeslot]) }}>Details</a></td>
                                                 @endif
                                             @endif
                                         <td>
                                             <span class="table-remove">
                                                 @if ( isset($info['availability']) )
-                                                    @if  ($info['availability'] === 0) 
+                                                    @if  ($info['availability'] === 0)
                                                         Blocked
                                                     @endif
-                                                @else 
+                                                @else
                                                     <form
                                                         method='GET'
                                                         action={{ action('BookingViewController@create', [ 'timeslot' => $timeslot ]) }}
@@ -150,8 +151,8 @@
                                                 @if ( isset($info['availability']) )
 
                                                     @if ( $info['availability'] === 0 )  {{-- Blocked --}}
-                                                        <form 
-                                                        method='POST' 
+                                                        <form
+                                                        method='POST'
                                                         action={{ action('BookingViewController@destroy', ['id' => $info['booking_id']]) }}
                                                         class='mx-auto'
                                                         >
@@ -176,11 +177,12 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                              @endif
                             </tbody>
-                        </table>        
+                        </table>
                         @endif
-                                
-                            
+
+
                     </div>
                 </div>
             </div>
